@@ -1,1 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Visualização 3D - Sistema 10/20</title>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+</head>
+<body>
+    <div id="cerebro3d" style="width: 100%; height: 600px;"></div>
+    
+    <script>
+        const ni = 36;
+        const tt = 36;
+        const R = 18; 
 
+        const alvos = {
+            "Fpz": {x: 0.0, y: ni*0.40}, "Fp1": {x: -tt*0.20, y: ni*0.40}, "Fp2": {x: tt*0.20, y: ni*0.40},
+            "F7": {x: -tt*0.40, y: ni*0.20}, "F3": {x: -tt*0.20, y: ni*0.20}, "Fz": {x: 0.0, y: ni*0.20},
+            "F4": {x: tt*0.20, y: ni*0.20}, "F8": {x: tt*0.40, y: ni*0.20}, "T3": {x: -tt*0.40, y: 0.0},
+            "C3": {x: -tt*0.20, y: 0.0}, "Cz": {x: 0.0, y: 0.0}, "C4": {x: tt*0.20, y: 0.0},
+            "T4": {x: tt*0.40, y: 0.0}, "T5": {x: -tt*0.40, y: -ni*0.20}, "P3": {x: -tt*0.20, y: -ni*0.20},
+            "Pz": {x: 0.0, y: -ni*0.20}, "P4": {x: tt*0.20, y: -ni*0.20}, "T6": {x: tt*0.40, y: -ni*0.20},
+            "O1": {x: -tt*0.20, y: -ni*0.40}, "Oz": {x: 0.0, y: -ni*0.40}, "O2": {x: tt*0.20, y: -ni*0.40},
+            "F5_Broca": {x: -tt*0.30, y: ni*0.20}, "CP5_Wernicke": {x: -tt*0.30, y: -ni*0.10}
+        };
+
+        let x = [], y = [], z = [], labels = [], colors = [];
+
+        for (let [nome, coord] of Object.entries(alvos)) {
+            labels.push(nome);
+            x.push(coord.x);
+            y.push(coord.y);
+            
+            let z_val = Math.sqrt(Math.max(0, R*R - coord.x*coord.x - coord.y*coord.y));
+            z.push(z_val);
+
+            if (nome === "F5_Broca" || nome === "CP5_Wernicke") {
+                colors.push('red');
+            } else {
+                colors.push('blue');
+            }
+        }
+
+        const data = [{
+            x: x, y: y, z: z,
+            text: labels,
+            mode: 'markers+text',
+            type: 'scatter3d',
+            marker: { size: 6, color: colors },
+            textposition: 'top center'
+        }];
+
+        const layout = {
+            title: 'Alvos tDCS 3D (Áreas de Broca e Wernicke em Vermelho)',
+            scene: {
+                xaxis: {title: 'Tragos-Tragos (X)'},
+                yaxis: {title: 'Nasion-Inion (Y)'},
+                zaxis: {title: 'Curvatura do Crânio (Z)'}
+            },
+            margin: { l: 0, r: 0, b: 0, t: 40 }
+        };
+
+        Plotly.newPlot('cerebro3d', data, layout);
+    </script>
+</body>
+</html>

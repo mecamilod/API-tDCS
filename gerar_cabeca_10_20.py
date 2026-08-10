@@ -92,9 +92,3 @@ with open("cabeca_10_20.obj", "w") as f:
             f.write(f"f {b} {c} {d}\n")
 
 print("Arquivo 'cabeca_10_20.obj' gerado com sucesso!")
-```
-
-Depois de executar, você pode:
-- Alterar os valores de `circunferencia_cm`, `nasion_inion_cm` e `tragus_tragus_cm` no início do código para personalizar.
-- Abrir o `cabeca_10_20.obj` no Blender, Meshmixer ou qualquer software 3D.
-- Os pontos do sistema 10/20, F5 e CP5 estão nomeados nos comentários (#) ao lado de cada vértice.
